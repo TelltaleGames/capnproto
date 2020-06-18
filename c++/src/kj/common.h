@@ -1,3 +1,4 @@
+
 // Copyright (c) 2013-2014 Sandstorm Development Group, Inc. and contributors
 // Licensed under the MIT License:
 //
@@ -25,7 +26,7 @@
 
 #pragma once
 
-#if defined(__GNUC__) || defined(__clang__)
+#if __GNUC__ || __clang__
 #define KJ_BEGIN_SYSTEM_HEADER _Pragma("GCC system_header")
 #elif defined(_MSC_VER)
 #define KJ_BEGIN_SYSTEM_HEADER __pragma(warning(push, 0))
@@ -55,13 +56,13 @@ KJ_BEGIN_HEADER
 // had it defined to 201300L even with -std=c++14.
 #if __cplusplus < 201300L && !__CDT_PARSER__ && !_MSC_VER
   #error "This code requires C++14. Either your compiler does not support it or it is not enabled."
-  #ifdef __GNUC__
+  #if __GNUC__
     // Compiler claims compatibility with GCC, so presumably supports -std.
     #error "Pass -std=c++14 on the compiler command line to enable C++14."
   #endif
 #endif
 
-#ifdef __GNUC__
+#if __GNUC__
   #if __clang__
     #if __clang_major__ < 5
       #warning "This library requires at least Clang 5.0."
@@ -129,7 +130,7 @@ typedef unsigned char byte;
   #if !defined(KJ_NO_EXCEPTIONS) && !__has_feature(cxx_exceptions)
     #define KJ_NO_EXCEPTIONS 1
   #endif
-#elif defined(__GNUC__)
+#elif __GNUC__
   #if !defined(KJ_NO_RTTI) && !__GXX_RTTI
     #define KJ_NO_RTTI 1
   #endif
@@ -164,7 +165,7 @@ typedef unsigned char byte;
   classname& operator=(const classname&) = delete
 // Deletes the implicit copy constructor and assignment operator.
 
-#ifdef __GNUC__
+#if __GNUC__
 #define KJ_LIKELY(condition) __builtin_expect(condition, true)
 #define KJ_UNLIKELY(condition) __builtin_expect(condition, false)
 // Branch prediction macros.  Evaluates to the condition given, but also tells the compiler that we
